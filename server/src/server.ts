@@ -1,5 +1,5 @@
 import express from "express";
-import cors from "cors";
+import cors from "cors";import streamRouter from "./routes/stream.js";
 
 const app = express();
 const PORT = 5000;
@@ -12,6 +12,8 @@ app.get("/",(_req,res)=>{
         message: "LogStream server is running",
     });
 });
+
+app.use("/api", streamRouter);
 
 app.listen(PORT,()=>{
     console.log("Server running on http://localhost:${PORT}");
