@@ -16,5 +16,5 @@ app.get("/",(_req,res)=>{
 app.use("/api", streamRouter);
 
 app.listen(PORT,()=>{
-    console.log("Server running on http://localhost:${PORT}");
+    console.log(`Server running on http://localhost:${PORT}`);
 });

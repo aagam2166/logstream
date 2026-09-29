@@ -23,6 +23,8 @@ router.get("/stream", (req: Request, res: Response) => {
     res.setHeader("Cache-Control", "no-cache"); //This is just to tell the browser not to cache the response as we want it to receive live stream
     res.setHeader("Connection", "keep-alive"); //This to make sure connection doesn't die
 
+    console.log(`Stream started for client: ${clientId}`);
+
     //setInterval function executes a given function repeatedly every given amount of time here 0.5 seconds
     //we hvae to use this because we want to generate logs continously
 
@@ -34,7 +36,7 @@ router.get("/stream", (req: Request, res: Response) => {
 
     //This continously listens for client connection closing
 
-    req.on("close", () => {
+    res.on("close", () => {
         clearInterval(interval);
         console.log(`Stream closed for client: ${clientId}`);
     });
