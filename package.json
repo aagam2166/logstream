@@ -1,6 +1,8 @@
 {
   "dependencies": {
-    "express": "^5.2.1"
+    "@tailwindcss/vite": "^4.3.3",
+    "express": "^5.2.1",
+    "tailwindcss": "^4.3.3"
   },
   "devDependencies": {
     "@types/cors": "^2.8.19",

@@ -11,13 +11,18 @@ const API_URL = import.meta.env.VITE_API_URL;
 //A callback function called onLog it means whenever a log arrives this function will give log to this callback function
 //and we have onError in case SSE connection encounters an error we can tell React component.
 
+interface StreamCallbacks {
+    onLog: (log: Log) => void;
+    onSession: (streamId: string) => void;
+    onError?: () => void;
+}
+
 export function connectToStream(
     clientId: string,
-    onLog: (log: Log) => void,
-    onError?: () => void
+    callbacks: StreamCallbacks
 ) {
 
-   
+
 
     const eventSource = new EventSource(
         `${API_URL}/api/stream?clientId=${encodeURIComponent(clientId)}`
@@ -25,13 +30,18 @@ export function connectToStream(
 
     eventSource.onmessage = (event) => {
         const log: Log = JSON.parse(event.data);
-        onLog(log);
+        callbacks.onLog(log);
     };
+
+    eventSource.addEventListener("session", (event) => {
+        const data = JSON.parse(event.data);
+        callbacks.onSession(data.streamId);
+    });
 
     eventSource.onerror = () => {
-        onError?.();
+        callbacks.onError?.();
     };
-
+    
     return eventSource;
 
 
