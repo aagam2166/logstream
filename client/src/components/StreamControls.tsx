@@ -17,8 +17,9 @@ function StreamControls({
     onStop,
 }: StreamControlProps) {
     return (
-        <div className="flex gap-3">
+        <div className="flex items-center gap-3">
             <Input
+                className="max-w-xl"
                 value={clientId}
                 onChange={(e) => onClientIdChange(e.target.value)}
                 placeholder="Client ID"
