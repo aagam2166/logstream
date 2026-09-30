@@ -1,5 +1,7 @@
 import express from "express";
-import cors from "cors";import streamRouter from "./routes/stream.js";
+import cors from "cors";
+import streamRouter from "./routes/stream.js";
+import injectRouter from "./routes/inject.js"
 
 const app = express();
 const PORT = 5000;
@@ -14,6 +16,7 @@ app.get("/",(_req,res)=>{
 });
 
 app.use("/api", streamRouter);
+app.use("/api", injectRouter);
 
 app.listen(PORT,()=>{
     console.log(`Server running on http://localhost:${PORT}`);

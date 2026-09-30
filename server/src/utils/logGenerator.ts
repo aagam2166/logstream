@@ -4,22 +4,48 @@ export type LogLevel = "INFO" | "WARN" | "ERROR";
 
 //This defines an object where key is of type LogLevel and value is array of strings
 
+export interface Log {
+  level: LogLevel;
+  timestamp: string;
+  message: string;
+}
+
+//this function intends to createTimeStamp for both generated and custom logs
+
+function createTimestamp(): string {
+  const now = new Date();
+
+  return `${String(now.getHours()).padStart(2, "0")}:${String(
+    now.getMinutes()
+  ).padStart(2, "0")}:${String(now.getSeconds()).padStart(2, "0")}.${String(
+    now.getMilliseconds()
+  ).padStart(3, "0")}`;
+}
+
+export function createLog(level: LogLevel, message: string): Log {
+  return {
+    level,
+    timestamp: createTimestamp(),
+    message,
+  };
+}
+
 const messages: Record<LogLevel, string[]> = {
-    INFO: [
-        "Dashboard session successfully initialized.",
-        "Database connection benchmark: stable.",
-        "Re-indexing background cache elements...",
-    ],
-    WARN: [
-        "High system memory allocation detected.",
-        "API response latency is increasing.",
-        "Background worker queue is growing.",
-    ],
-    ERROR: [
-        "API network request failed with status 500.",
-        "Database query failed unexpectedly.",
-        "Background worker encountered an error.",
-    ],
+  INFO: [
+    "Dashboard session successfully initialized.",
+    "Database connection benchmark: stable.",
+    "Re-indexing background cache elements...",
+  ],
+  WARN: [
+    "High system memory allocation detected.",
+    "API response latency is increasing.",
+    "Background worker queue is growing.",
+  ],
+  ERROR: [
+    "API network request failed with status 500.",
+    "Database query failed unexpectedly.",
+    "Background worker encountered an error.",
+  ],
 
 };
 
@@ -34,15 +60,9 @@ export function generateLog() {
   const message =
     levelMessages[Math.floor(Math.random() * levelMessages.length)];
 
-  const now = new Date();
+  
 
-  const timestamp = `${String(now.getHours()).padStart(2, "0")}:${String(
-    now.getMinutes()
-  ).padStart(2, "0")}:${String(now.getSeconds()).padStart(2, "0")}.${String(
-    now.getMilliseconds()
-  ).padStart(3, "0")}`;
-
-  //this was to convert the current date into HH:MM:SS:mmm format
+  
 
   //eg return type is 
   //{
@@ -51,10 +71,6 @@ export function generateLog() {
   //message: "High system memory allocation detected."
   //}
 
-  return {
-    level,
-    timestamp,
-    message,
-  };
+   return createLog(level as LogLevel, message as string);
 }
 
